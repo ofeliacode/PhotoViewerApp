@@ -7,9 +7,9 @@
 
 import Foundation
 
-
 class NetworkService {
-    // Create session
+    
+   // MARK: - Create session
     func request(url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {

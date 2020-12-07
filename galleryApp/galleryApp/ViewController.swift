@@ -8,18 +8,21 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-   
+
+    // MARK:- Variables
     var picturesArray: GalleryModel?
     let networkDataFetcher = NetworkDataFetcher()
     var numberPageResult: Int = 1
     var collectionView : UICollectionView?
     
+    // MARK: - Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         setupCollectionview()
         fetchPicturesData()
     }
+    
+    // MARK: - Setup collectionview
     func setupCollectionview() {
             super.loadView()
             let layout = UICollectionViewFlowLayout()
@@ -43,6 +46,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             self.collectionView = collectionView
         }
     
+    // MARK:- get fetched pictures from api into collectionview
     private func fetchPicturesData() {
             networkDataFetcher.fetchPics(pageNumber: numberPageResult, completion: { (loadedPics) in
                 self.picturesArray = loadedPics
@@ -50,8 +54,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             })
     }
     
-    
-    // Pagination: Fetch new page of pics
+    // MARK:-  Pagination: fetch new page of pictures
     func fetchNextPageOfPics() {
         networkDataFetcher.fetchPics(pageNumber: numberPageResult) { (loadedPics) in
             guard let newPage = loadedPics else { return }
@@ -61,7 +64,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    
+    // MARK:- building collectionview
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return picturesArray?.hits.count ?? 0
     }
@@ -73,7 +76,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         cell.backgroundColor = .black
         return cell
     }
-    
+    // MARK:-  Scrollview + paging
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetX = scrollView.contentOffset.x
         let contentWidth = scrollView.contentSize.width

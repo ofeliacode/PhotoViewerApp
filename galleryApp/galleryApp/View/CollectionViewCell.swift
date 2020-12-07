@@ -8,10 +8,12 @@
 import Foundation
 import UIKit
 class CollectionViewCell: UICollectionViewCell {
-    
+    // MARK:- Variables
     static let identifier = "cellIdentifier"
     private var urlStringOfImage: String = ""
     private var urlStringOfAvatar: String = ""
+    
+    // MARK:- Functions
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.addSubview(userLabel)
@@ -25,10 +27,13 @@ class CollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(subscribeButton)
         setUpConstraints()
     }
+    
+    // MARK:- configuration of dynamic cell
     func setup(_ pic: Hitsdata) {
         updateUI(picture: pic.img, avatar: pic.avatar, likes: pic.likes, comments: pic.comments, user: pic.user)
     }
     
+    // MARK:- getting pictures from api
     func getImageFromURL(url: URL) {
             URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let error = error {
@@ -59,8 +64,9 @@ class CollectionViewCell: UICollectionViewCell {
                 }
             }.resume()
     }
+    
+    // MARK:- setup dynamic cell
     func updateUI(picture: String?, avatar: String?, likes: Int?, comments: Int?, user: String?) {
-       
         likesLabel.text = likes?.description
         commentsLabel.text = comments?.description
         userLabel.text = user
@@ -85,6 +91,8 @@ class CollectionViewCell: UICollectionViewCell {
         imageAvatar.image = nil
         getImageFromURLForUser(url: pictureAvatarURL)
     }
+    
+    // MARK:- creating content of cell
     let imageView: UIImageView = {
         let img = UIImageView()
         img.clipsToBounds = true
@@ -149,8 +157,8 @@ class CollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    // MARK:- setup constraints of content cell
     func setUpConstraints() {
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageAvatar.translatesAutoresizingMaskIntoConstraints = false
         userLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -160,6 +168,7 @@ class CollectionViewCell: UICollectionViewCell {
         commentsEmodji.translatesAutoresizingMaskIntoConstraints = false
         saveEmodji.translatesAutoresizingMaskIntoConstraints = false
         subscribeButton.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             likesEmodji.topAnchor.constraint(equalTo: bottomAnchor, constant: -40),
             likesEmodji.heightAnchor.constraint(equalToConstant: 20),

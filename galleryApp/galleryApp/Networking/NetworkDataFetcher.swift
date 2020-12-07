@@ -8,10 +8,12 @@
 import Foundation
 
 class NetworkDataFetcher {
+    // MARK: - Variables
     var networkService = NetworkService()    
     private let urlScheme = "https"
     private let urlHost = "pixabay.com"
     
+    // MARK: - Functions
     func fetchPics(pageNumber: Int, completion: @escaping (GalleryModel?) -> Void) {
         var components = URLComponents()
             components.scheme = urlScheme
